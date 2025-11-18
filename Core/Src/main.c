@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "app_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,12 +43,19 @@
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
+/* Definitions for ReportingT */
+osThreadId_t ReportingTHandle;
+const osThreadAttr_t ReportingT_attributes = {
+  .name = "ReportingT",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for InterruptHandle */
+osThreadId_t InterruptHandleHandle;
+const osThreadAttr_t InterruptHandle_attributes = {
+  .name = "InterruptHandle",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* USER CODE BEGIN PV */
 
@@ -58,7 +65,8 @@ const osThreadAttr_t defaultTask_attributes = {
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
-void StartDefaultTask(void *argument);
+void StartReportingT(void *argument);
+void StartInterruptHandlerT(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -123,8 +131,11 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of ReportingT */
+  ReportingTHandle = osThreadNew(StartReportingT, NULL, &ReportingT_attributes);
+
+  /* creation of InterruptHandle */
+  InterruptHandleHandle = osThreadNew(StartInterruptHandlerT, NULL, &InterruptHandle_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -272,22 +283,32 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_StartReportingT */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the ReportingT thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_StartReportingT */
+void StartReportingT(void *argument)
 {
   /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+  ReportingTaskImpl(argument);
   /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_StartInterruptHandlerT */
+/**
+* @brief Function implementing the InterruptHandle thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartInterruptHandlerT */
+void StartInterruptHandlerT(void *argument)
+{
+  /* USER CODE BEGIN StartInterruptHandlerT */
+  InterruptHandlerTaskImpl(argument);
+  /* USER CODE END StartInterruptHandlerT */
 }
 
 /**

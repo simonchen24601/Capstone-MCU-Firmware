@@ -2,8 +2,9 @@
 CAD.formats=
 CAD.pinconfig=
 CAD.provider=
-FREERTOS.IPParameters=Tasks01
-FREERTOS.Tasks01=defaultTask,24,128,StartDefaultTask,Default,NULL,Dynamic,NULL,NULL
+FREERTOS.FootprintOK=true
+FREERTOS.IPParameters=Tasks01,FootprintOK
+FREERTOS.Tasks01=ReportingT,24,128,StartReportingT,Default,NULL,Dynamic,NULL,NULL;InterruptHandle,40,128,StartInterruptHandlerT,Default,NULL,Dynamic,NULL,NULL
 File.Version=6
 GPIO.groupedBy=Group By Peripherals
 KeepUserPlacement=false
@@ -181,3 +182,4 @@ VP_SYS_VS_tim11.Mode=TIM11
 VP_SYS_VS_tim11.Signal=SYS_VS_tim11
 board=NUCLEO-F411RE
 boardIOC=true
+rtos.0.ip=FREERTOS
