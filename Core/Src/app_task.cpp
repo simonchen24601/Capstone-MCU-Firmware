@@ -1,6 +1,8 @@
 #include "app_task.h"
+#include <cstring>
+#include <cstdio>
+#include "util.h"
 #include "cmsis_os.h"
-#include <stdio.h>
 
 void ReportingTaskImpl(void *argument)
 {
@@ -12,7 +14,9 @@ void ReportingTaskImpl(void *argument)
         temp = 25.0f + (float)(counter % 10) * 0.1f;   // 25.0 .. 25.9
         hum  = 50.0f + (float)(counter % 20) * 0.2f;   // 50.0 .. 53.8
 
-        printf("[StubSensor] Temperature=%.2f C, Humidity=%.2f %%\r\n", temp, hum);
+        static char buf[64];
+        sprintf(buf, "[StubSensor] Temperature=%.2f C, Humidity=%.2f %%\r\n", temp, hum);
+        WriteUART(buf, strlen(buf));
         counter++;
 
         osDelay(5000);
