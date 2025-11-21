@@ -1,7 +1,7 @@
+#pragma once
 /* app_task.h - Application task declarations
    Simon Chen 2025
 */
-#pragma once
 
 #ifdef __cplusplus
 extern "C" {

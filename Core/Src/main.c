@@ -57,6 +57,11 @@ const osThreadAttr_t InterruptHandle_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityHigh,
 };
+/* Definitions for UARTWriteMtx */
+osMutexId_t UARTWriteMtxHandle;
+const osMutexAttr_t UARTWriteMtx_attributes = {
+  .name = "UARTWriteMtx"
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -113,6 +118,9 @@ int main(void)
 
   /* Init scheduler */
   osKernelInitialize();
+  /* Create the mutex(es) */
+  /* creation of UARTWriteMtx */
+  UARTWriteMtxHandle = osMutexNew(&UARTWriteMtx_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
